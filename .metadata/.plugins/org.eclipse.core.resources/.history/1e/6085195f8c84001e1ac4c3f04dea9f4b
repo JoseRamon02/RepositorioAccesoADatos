@@ -1,0 +1,91 @@
+package Vista;
+
+import javax.swing.*;
+import Controlador.player1;
+import Controlador.player2;
+import Controlador.keyHandler;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class FightingGame extends JFrame implements Runnable {
+
+    private static final long serialVersionUID = 1L;
+
+    public JPanel lienzo = new JPanel();
+    VentanaFondo fondo = new VentanaFondo();  // Agregamos el fondo
+    public JPanel juego = new JPanel();
+
+    boolean running = true;
+    int FPS = 60;
+    Thread gameThread;
+
+    keyHandler keyH1 = new keyHandler();
+    keyHandler keyH2 = new keyHandler();
+
+    public FightingGame() {
+        setUndecorated(true);  // Elimina la decoración de la ventana (bordes, botones de cierre, etc.)
+        setExtendedState(JFrame.MAXIMIZED_BOTH);  // Hace que la ventana sea de pantalla completa
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Listener Teclados
+        player1 player1 = new player1(this, keyH1);
+        player2 player2 = new player2(this, keyH2);
+
+        // Fondo
+        setFocusable(true);
+        lienzo.setLayout(null);
+        juego.setLayout(null);
+        juego.setBackground(Color.black);
+        lienzo.add(juego);
+        juego.add(fondo);
+        juego.add(exitButton);
+
+        // Agregar el botón de salida
+        JButton exitButton = new JButton("Salir");
+        exitButton.setBounds(100, 100, 100, 30);
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);  // Salir de la aplicación
+            }
+        });
+     
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            update();
+            render();
+            try {
+                Thread.sleep(1000 / FPS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void update() {
+        player1.update();
+        player2.update();
+    }
+
+    public void render() {
+        repaint();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        player1.draw(g);
+        player2.draw(g);
+    }
+}

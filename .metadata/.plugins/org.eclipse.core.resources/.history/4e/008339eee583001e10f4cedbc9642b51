@@ -1,0 +1,5 @@
+package Controlador;
+
+public class player1 extends Entidad{
+
+}

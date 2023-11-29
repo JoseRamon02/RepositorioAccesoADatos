@@ -1,0 +1,46 @@
+package Vista;
+
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class VentanaFondo extends JFrame {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Image imagenDeFondo;
+
+    public VentanaFondo() {
+        // Cargar la imagen de fondo
+        imagenDeFondo = new ImageIcon(getClass().getResource("./Imagenes/fondo.jpg")).getImage();
+
+        // Configurar la ventana
+        setTitle("Ventana con Fondo");
+        setSize(new Dimension(800, 600));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Establecer un panel con el fondo
+        JPanel panelConFondo = new JPanel() {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Dibujar la imagen de fondo
+                g.drawImage(imagenDeFondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        // Añadir otros componentes o realizar otras configuraciones según sea necesario
+
+        // Establecer el panel con fondo como contenido de la ventana
+        setContentPane(panelConFondo);
+    }}

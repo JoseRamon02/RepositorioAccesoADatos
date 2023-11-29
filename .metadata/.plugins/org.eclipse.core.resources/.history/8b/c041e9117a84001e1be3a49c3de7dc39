@@ -1,0 +1,15 @@
+package Principal;
+
+import Vista.FightingGame;
+
+public class Principal {
+	
+	public static void main(String[] args) {
+	    SwingUtilities.invokeLater(() -> {
+	        FightingGame game = new FightingGame();
+	        game.setVisible(true);
+	    });
+	}
+
+
+}

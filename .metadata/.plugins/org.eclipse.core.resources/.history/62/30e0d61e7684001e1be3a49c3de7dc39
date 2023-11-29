@@ -1,0 +1,32 @@
+package Vista;
+
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+public class VentanaFondo extends JPanel {
+
+    public final int ANCHURA_SPRITE = 800 * FightingGame.reescalador;
+    public final int ALTURA_SPRITE = 344 * FightingGame.reescalador;
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        try {
+            // Cargar la imagen desde el sistema de archivos
+            File file = new File("ruta_de_tu_imagen/fondoMortalKombat.png");
+            Image image = ImageIO.read(file);
+
+            // Dibujar la imagen en el JPanel
+            g.drawImage(image, 0, 0, ANCHURA_SPRITE, ALTURA_SPRITE, this);
+
+        } catch (Exception e) {
+            // Manejar cualquier excepción al cargar la imagen
+            e.printStackTrace();
+        }
+    }
+}

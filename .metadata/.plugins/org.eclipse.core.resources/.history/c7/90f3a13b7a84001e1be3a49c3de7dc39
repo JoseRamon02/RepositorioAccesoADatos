@@ -1,0 +1,81 @@
+package Controlador;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class keyHandler implements KeyListener {
+
+    public boolean wPressed, sPressed, aPressed, dPressed;
+    public boolean fleArriba,fleIzq,fleDer,fleAbajo;
+    
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // ...
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+
+        // Player1 controls
+        if (code == KeyEvent.VK_W) {
+            wPressed = true;
+        }
+        if (code == KeyEvent.VK_D) {
+            dPressed = true;
+        }
+        if (code == KeyEvent.VK_A) {
+            aPressed = true;
+        }
+        if (code == KeyEvent.VK_S) {
+            sPressed = true;
+        }
+
+        // Player2 controls
+        if (code == KeyEvent.VK_UP) {
+            fleArriba = true;
+        }
+        if (code == KeyEvent.VK_RIGHT) {
+        	fleDer = true;
+        }
+        if (code == KeyEvent.VK_LEFT) {
+        	fleIzq = true;
+        }
+        if (code == KeyEvent.VK_DOWN) {
+        	fleAbajo = true;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode();
+
+        // Player1 controls
+        if (code == KeyEvent.VK_W) {
+            wPressed = false;
+        }
+        if (code == KeyEvent.VK_D) {
+            dPressed = false;
+        }
+        if (code == KeyEvent.VK_A) {
+            aPressed = false;
+        }
+        if (code == KeyEvent.VK_S) {
+            sPressed = false;
+        }
+
+        // Player2 controls
+        if (code == KeyEvent.VK_UP) {
+        	fleArriba = false;
+        }
+        if (code == KeyEvent.VK_RIGHT) {
+        	fleDer = false;
+        }
+        if (code == KeyEvent.VK_LEFT) {
+        	fleIzq = false;
+        }
+        if (code == KeyEvent.VK_DOWN) {
+        	fleAbajo = false;
+        }
+    }
+}

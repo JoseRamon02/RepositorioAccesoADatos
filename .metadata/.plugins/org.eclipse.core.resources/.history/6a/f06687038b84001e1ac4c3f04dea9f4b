@@ -1,0 +1,40 @@
+package Vista;
+
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+public class VentanaFondo extends JPanel {
+
+    public final int ANCHURA_SPRITE = 800 * FightingGame.reescalador;
+    public final int ALTURA_SPRITE = 344 * FightingGame.reescalador;
+
+    private Image fondoImagen;
+
+    public VentanaFondo() {
+        cargarImagen();
+        setPreferredSize(new Dimension(ANCHURA_SPRITE, ALTURA_SPRITE));
+        setOpaque(false);
+    }
+
+    private void cargarImagen() {
+        try {
+            fondoImagen = ImageIO.read(getClass().getResource("/Imagenes/fondo/fondoMortalKombat.png"));
+            System.out.println("Imagen cargada correctamente");
+        } catch (Exception e) {
+            System.err.println("Error al cargar la imagen:");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (fondoImagen != null) {
+            g.drawImage(fondoImagen, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+}

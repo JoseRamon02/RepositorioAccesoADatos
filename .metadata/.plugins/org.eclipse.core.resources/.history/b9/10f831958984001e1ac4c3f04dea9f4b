@@ -1,0 +1,104 @@
+package Vista;
+
+import javax.swing.*;
+import Controlador.player1;
+import Controlador.player2;
+import Controlador.keyHandler;
+import java.awt.Color;
+import java.awt.Graphics;
+
+
+public class FightingGame extends JFrame implements Runnable {
+
+    private static final long serialVersionUID = 1L;
+
+    public static int reescalador = 2;
+    public static int ANCHURA_JUEGO = 800 * reescalador;
+    public static int ALTURA_JUEGO = 344 * reescalador;
+
+    public JPanel lienzo = new JPanel();
+    VentanaFondo fondo = new VentanaFondo();  // Agregamos el fondo
+    public JPanel juego = new JPanel();
+  
+    boolean running = true;
+    int FPS = 60;
+    Thread gameThread;
+    
+    keyHandler keyH1 = new keyHandler();
+    keyHandler keyH2 = new keyHandler();
+    
+    public FightingGame() {
+        setSize(ANCHURA_JUEGO + 16, ALTURA_JUEGO + 39);
+        setTitle("Mortal Eclipse");
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Listener Teclados
+        player1 player1 = new player1(this, keyH1);
+        player2 player2 = new player2(this, keyH2);
+
+        // Fondo
+        setFocusable(true);
+        lienzo.setLayout(null);
+        juego.setLayout(null);
+        juego.setBounds(0, 0, ANCHURA_JUEGO, ALTURA_JUEGO);
+        juego.setBackground(Color.black);
+        lienzo.add(juego);
+
+        add(lienzo);
+
+        // Personajes
+        configurarFondo();
+        juego.add(fondo);
+        new Thread(this).start();
+    }
+
+    private void configurarFondo() {
+        fondo.setLayout(null);
+        fondo.setBounds(((ANCHURA_JUEGO / 2) - (fondo.ANCHURA_SPRITE / 2)), ALTURA_JUEGO - fondo.ALTURA_SPRITE,
+                fondo.ANCHURA_SPRITE, fondo.ALTURA_SPRITE);
+        fondo.setVisible(true);
+        juego.add(fondo);
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            update();
+            render();
+            try {
+                Thread.sleep(1000 / FPS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void update() {
+        player1.update();
+        player2.update();
+    }
+
+    public void render() {
+        repaint();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        player1.draw(g);
+        player2.draw(g);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new FightingGame().setVisible(true);
+            }
+        });
+    }
+}

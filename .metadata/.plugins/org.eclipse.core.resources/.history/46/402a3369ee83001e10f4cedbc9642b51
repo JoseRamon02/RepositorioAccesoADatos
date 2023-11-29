@@ -1,0 +1,8 @@
+package Controlador;
+
+public class Entidad {
+
+	public int x,y;
+	public int speed;
+	
+}

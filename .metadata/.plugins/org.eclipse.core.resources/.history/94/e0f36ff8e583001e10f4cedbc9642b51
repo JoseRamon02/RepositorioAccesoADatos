@@ -1,0 +1,17 @@
+package Controlador;
+
+import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
+
+import Vista.FightingGame;
+
+public class player1 extends Entidad{
+
+	FightingGame fg;
+	KeyHandler keyH;
+	
+	public player1(FightingGame fg, KeyHandler keyH) {
+		this.fg = fg;
+		this.fg = keyH;
+	}
+	
+}

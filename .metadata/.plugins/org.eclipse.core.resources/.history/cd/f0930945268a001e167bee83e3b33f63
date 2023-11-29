@@ -1,0 +1,476 @@
+package Vista;
+
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+import Controlador.Bullet;
+import Controlador.Enemy;
+import Controlador.Explosion;
+import Controlador.Player;
+import Controlador.PowerUp;
+
+public class GameManager extends JPanel implements Runnable, KeyListener {
+
+	private Color bgColor;
+	public static int WIDTH;
+	public static int HEIGHT;
+	private int FPS;
+	private boolean running;
+	private Graphics2D g;
+	private BufferedImage image;
+	private BufferedImage backgroundImage;
+	private Thread thread;
+
+	public static Player player;
+	public static ArrayList<Enemy> enemies;
+	public static ArrayList<Bullet> bullets;
+	public static ArrayList<Explosion> explosions;
+	public static ArrayList<PowerUp> powerups;
+
+	private boolean laserTaken;
+
+	private long waveStartTimer;
+	private long waveStartTimerDiff;
+	private int waveDelay;
+	private int waveNumber;
+	private boolean waveStart;
+
+	private long slowStartTimer;
+	private int slowLength;
+	private long slowElapsed;
+	
+	
+	// Create Enemies
+		private void createNewEnemies() {
+
+			int n = waveNumber * 3;
+			int type = 0;
+			int rank = 0;
+
+			for (int i = 0; i < n; i++) {
+
+				type = (waveNumber < 3) ? 1 : (int) (Math.random() * (3)) + 1;
+				rank = (type == 1) ? (int) (Math.random() * (2)) + 1 : (int) (Math.random() * (2)) + 1;
+				enemies.add(new Enemy(type, rank));
+			}
+
+		}
+	
+	public void gameUpdate() {
+
+		// wave system
+		if (waveStartTimer == 0 && enemies.size() == 0) {
+			waveNumber++;
+			waveStart = false;
+			waveStartTimer = System.nanoTime();
+
+		} else {
+			waveStartTimerDiff = (System.nanoTime() - waveStartTimer) / 1000000;
+			if (waveStartTimerDiff > waveDelay) {
+				waveStart = true;
+				waveStartTimer = 0;
+				waveStartTimerDiff = 0;
+			}
+		}
+
+		// create enemies
+		if (waveStart && enemies.size() == 0)
+			createNewEnemies();
+
+		// Player Update
+		player.update();
+
+		// Bullets
+		for (int i = 0; i < bullets.size(); i++) {
+
+			boolean remove = bullets.get(i).update();
+			if (remove) {
+				bullets.remove(i);
+				i--;
+			}
+
+		}
+
+		// Enemy
+		for (int i = 0; i < enemies.size(); i++) {
+			enemies.get(i).update();
+		}
+
+		// Bullet-Enemy Collision
+		if (!laserTaken)
+			for (int i = 0; i < bullets.size(); i++) {
+
+				Bullet b = bullets.get(i);
+
+				// Getting Coordinates of Bullet
+				double bx = b.getx();
+				double by = b.gety();
+				double br = b.getr();
+
+				for (int j = 0; j < enemies.size(); j++) {
+
+					Enemy e = enemies.get(j);
+					// Getting coordinates of enemy
+					double ex = e.getx();
+					double ey = e.gety();
+					double er = e.getr();
+
+					// Calculating Distance
+					double dx = bx - ex;
+					double dy = by - ey;
+
+					// Distance Formula
+					double dist = Math.sqrt(dx * dx + dy * dy);
+					boolean removed = false;
+					if (dist < br + er) {
+
+						// Collision Detected
+
+						// Create New
+						if (e.getHealth() == 2) {
+
+							explosions.add(new Explosion(e, e.getr() * 5));
+							enemies.add(new Enemy((e.getRank() - 1 > 0) ? e.getRank() - 1 : 1,
+									(e.getType() - 1 > 0) ? e.getType() - 1 : 1, e.getHealth() - 1,
+									e.getAngle() + Math.toRadians(70), e.getx() - e.getr(), e.gety()));
+							enemies.add(new Enemy((e.getRank() - 1 > 0) ? e.getRank() - 1 : 1,
+									(e.getType() - 1 > 0) ? e.getType() - 1 : 1, e.getHealth() - 1,
+									e.getAngle() - Math.toRadians(60), e.getx() + e.getr(), e.gety()));
+							enemies.remove(j);
+							if (slowStartTimer != 0)
+								for (int k = 0; k < enemies.size(); k++)
+									enemies.get(k).setSlow(true);
+							removed = true;
+
+						}
+						if (!removed)
+							e.hit();
+						bullets.remove(i);
+						player.addScore(e.getType() + e.getRank());
+						i--;
+						break;
+
+					}
+
+				}
+
+			}
+
+		// enemy dead check
+		for (int i = 0; i < enemies.size(); i++) {
+			if (enemies.get(i).isDead()) {
+				explosions.add(new Explosion(enemies.get(i), enemies.get(i).getr() * 5));
+
+				// Chance for PowerUp
+				double rand = Math.random();
+				if (rand < 0.01)
+					powerups.add(new PowerUp(enemies.get(i), 1));
+				else if (rand < 0.005)
+					powerups.add(new PowerUp(enemies.get(i), 3));
+				else if (rand < 0.03)
+					powerups.add(new PowerUp(enemies.get(i), 2));
+				else if (rand < 0.07)
+					powerups.add(new PowerUp(enemies.get(i), 5));
+
+				// Remove
+				enemies.remove(i);
+				i--;
+			}
+		}
+
+		// Player-Enemy Collision
+		if (!player.isRecovering() && !player.isOver()) {
+			// Player Coordinates
+			int px = player.getx();
+			int py = player.gety();
+			int pr = player.getr();
+
+			for (int i = 0; i < enemies.size(); i++) {
+				Enemy e = enemies.get(i);
+
+				// Enemy Coordinates
+				double ex = e.getx();
+				double ey = e.gety();
+				double er = e.getr();
+
+				// Ajustes en la detección de colisión en los ejes X e Y
+				double offsetX = 5; // Ajuste en el eje X (derecha)
+				double offsetY = 5; // Ajuste en el eje Y (abajo)
+
+				double dx = px - ex - offsetX;
+				double dy = py - ey - offsetY;
+
+				double dist = Math.sqrt(dx * dx + dy * dy);
+
+				if (dist < pr + er) {
+					player.loseLife();
+					player.addScore(-(e.getRank() + e.getType()));
+					explosions.add(new Explosion(enemies.get(i), enemies.get(i).getr() * 5));
+					enemies.remove(i);
+					i--;
+					player.addPower(1);
+				}
+			}
+		}
+
+		// explosion
+		for (int i = 0; i < explosions.size(); i++) {
+			boolean remove = explosions.get(i).update();
+			if (remove) {
+				explosions.remove(i);
+				i--;
+			}
+		}
+
+		// PowerUp
+		for (int i = 0; i < powerups.size(); i++) {
+			boolean remove = powerups.get(i).update();
+			if (remove)
+				powerups.remove(i);
+		}
+
+		// PowerUp - Player Collision
+		for (int i = 0; i < powerups.size(); i++) {
+
+			PowerUp p = powerups.get(i);
+
+			double px = p.getx();
+			double py = p.gety();
+			int pr = p.getr();
+
+			int ppx = player.getx();
+			int ppy = player.gety();
+			int ppr = player.getr();
+
+			double dx = px - ppx;
+			double dy = py - ppy;
+
+			// Distance
+			double dist = Math.sqrt(dx * dx + dy * dy);
+
+			if (dist < pr + ppr) {
+				// Collision Detected
+
+				int type = p.getType();
+				switch (type) {
+
+				case 1:
+					player.addLife();
+					break;
+				case 2:
+					player.addPower(1);
+					break;
+				case 3:
+					player.addPower(2);
+					break;
+				case 5: {
+					slowStartTimer = System.nanoTime();
+					for (int j = 0; j < enemies.size(); j++)
+						enemies.get(j).setSlow(true);
+				}
+					break;
+				default:
+					System.exit(0);
+
+				}
+
+				// Remove From Screen
+				powerups.remove(i);
+			}
+
+		}
+		//Slow Down Update
+				if(slowStartTimer!=0){
+					slowElapsed = (System.nanoTime() - slowStartTimer)/1000000;
+					if(slowElapsed > slowLength){
+						slowStartTimer = 0;
+						for(int i = 0; i < enemies.size(); i++)
+							enemies.get(i).setSlow(false);
+					}
+				}
+	}
+
+	public void gameRender() {
+
+		g.drawImage(backgroundImage, 0, 0, WIDTH, HEIGHT, null);
+		// Draw Background
+
+		// Score
+		g.setFont(new Font("Century Gothic", Font.BOLD, 12));
+		g.setColor(Color.WHITE);
+		g.drawString("SCORE: " + player.getScore(), WIDTH - 80, 20);
+
+		 g.drawString("NIVEL: " + player.getPowerLevel(), WIDTH - 80, 40);
+		
+		// Credits
+		g.setFont(new Font("Century Gothic", Font.BOLD, 15));
+		g.drawString("", WIDTH - 170, HEIGHT - 10);
+
+		// Wave Number
+		if (waveStartTimer != 0) {
+
+			g.setFont(new Font("Century Gothic", Font.PLAIN, 30));
+			String s = String.format("- O L E A D A  %d -", waveNumber);
+			int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+			int alpha = (int) (255 * Math.sin(3.14 * waveStartTimerDiff / waveDelay));
+			if (alpha > 255)
+				alpha = 255;
+			g.setColor(new Color(255, 255, 255, alpha));
+			g.drawString(s, WIDTH / 2 - length / 2, HEIGHT / 2);
+
+		}
+
+		int numLives = player.getLives();
+
+		// Lives
+		String[] lifeImagePaths = { "src/res/esfera1.png", "src/res/esfera2.png", "src/res/esfera3.png",
+				"src/res/esfera4.png", "src/res/esfera5.png", "src/res/esfera6.png", "src/res/esfera7.png", };
+
+		for (int i = 0; i < numLives; i++) {
+			BufferedImage lifeImage = null;
+
+			try {
+				// Seleccionar la ruta de imagen correspondiente a la vida actual
+				String imagePath = lifeImagePaths[i];
+				lifeImage = ImageIO.read(new File(imagePath));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			// Verificar si la imagen se ha cargado correctamente
+			if (lifeImage != null) {
+				// Dibujar la imagen en lugar del círculo coloreado
+				g.drawImage(lifeImage, 75 + (25 * i), 15, player.getr() * 3, player.getr() * 3, null);
+			} else {
+				// Si la imagen no se carga correctamente, dibujar un círculo coloreado como
+				// respaldo
+				g.setColor(bgColor.brighter().brighter());
+				g.fillOval(15 + (25 * i), 15, player.getr(), player.getr() * 2);
+				g.setStroke(new java.awt.BasicStroke(2));
+				g.setColor(Color.BLACK);
+				g.drawOval(15 + (25 * i), 15, player.getr(), player.getr() * 2);
+				g.setStroke(new java.awt.BasicStroke(1));
+			}
+		}
+
+		// Draw Player
+		player.draw(g);
+
+		// draw enemies
+		for (int i = 0; i < enemies.size(); i++)
+			enemies.get(i).draw(g);
+
+		// Bullet
+		if (!laserTaken)
+			for (int i = 0; i < bullets.size(); i++) {
+				bullets.get(i).draw(g);
+			}
+
+		// explosion
+		for (int i = 0; i < explosions.size(); i++)
+			explosions.get(i).draw(g);
+
+		// PowerUp
+		for (int i = 0; i < powerups.size(); i++)
+			powerups.get(i).draw(g);
+
+		// draw slow down meter
+
+				if(slowStartTimer != 0 && !laserTaken) {
+					g.setColor(Color.WHITE);
+					g.drawRect(10, 80, 100, 10);
+					g.fillRect(10, 80,
+						(int) (100 - 100.0 * slowElapsed / slowLength), 10);
+				}
+				else if(slowStartTimer != 0) {
+					g.setColor(Color.WHITE);
+					g.drawRect(10, 100, 100, 10);
+					g.fillRect(10, 100,
+						(int) (100 - 100.0 * slowElapsed / slowLength), 10);
+				}
+
+		// over
+		if (player.isOver()) {
+
+			// Over Display
+			g.setFont(new Font("Century Gothic", Font.PLAIN, 30));
+			String s = "G A M E    O V E R";
+			int length = (int) g.getFontMetrics().getStringBounds(s, g).getWidth();
+			g.setColor(Color.WHITE);
+			g.drawString(s, WIDTH / 2 - length / 2, HEIGHT / 2);
+			// setters off
+			player.setLeft(false);
+			player.setRight(false);
+			player.setUp(false);
+			player.setDown(false);
+			player.setFiring(false);
+			// Listener off
+			removeKeyListener(this);
+		}
+	}
+
+	public void gameDraw() {
+
+		// get graphics
+		Graphics g2 = this.getGraphics();
+
+		// draw
+		g2.drawImage(image, 0, 0, null);
+
+		// refresh
+		g2.dispose();
+
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int keyCode = e.getKeyCode();
+		if (keyCode == KeyEvent.VK_LEFT)
+			player.setLeft(true);
+		if (keyCode == KeyEvent.VK_RIGHT)
+			player.setRight(true);
+		if (keyCode == KeyEvent.VK_UP)
+			player.setUp(true);
+		if (keyCode == KeyEvent.VK_DOWN)
+			player.setDown(true);
+		if (keyCode == KeyEvent.VK_SPACE)
+			player.setFiring(true);
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+}

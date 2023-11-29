@@ -1,0 +1,24 @@
+package Controlador;
+
+
+
+import Vista.FightingGame;
+
+public class player1 extends Entidad{
+
+	FightingGame fg;
+	keyHandler keyH;
+	
+	public player1(FightingGame fg, keyHandler keyH) {
+		this.fg = fg;
+		this.keyH = keyH;
+	}
+	
+	public void setDefaultValues() {
+		x = 100;
+		y = 100;
+		speed = 4;
+		
+	}
+	
+}

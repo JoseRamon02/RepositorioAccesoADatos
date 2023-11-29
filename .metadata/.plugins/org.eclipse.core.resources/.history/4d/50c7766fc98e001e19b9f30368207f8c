@@ -1,0 +1,65 @@
+package Controlador;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class RankingXML {
+    private int vidas;
+    private int score;
+    private String nombre;
+    private Map<String, Integer> puntuaciones;
+
+    public Juego() {
+        vidas = 3;
+        score = 0;
+        puntuaciones = new HashMap<>();
+    }
+
+    public void jugar() {
+        // Lógica del juego aquí
+
+        // Simulamos la pérdida de vidas y actualizamos el puntaje
+        vidas = 0;
+        score = 1000;
+
+        // Preguntamos el nombre al usuario
+        pedirNombre();
+
+        // Guardamos la puntuación
+        if (vidas == 0) {
+            guardarPuntuacion();
+        }
+    }
+
+    private void pedirNombre() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingresa tu nombre: ");
+        nombre = scanner.nextLine();
+    }
+
+    private void guardarPuntuacion() {
+        puntuaciones.put(nombre, score);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("puntuaciones.xml"))) {
+            writer.write("<puntuaciones>\n");
+
+            for (Map.Entry<String, Integer> entry : puntuaciones.entrySet()) {
+                writer.write(String.format("  <jugador nombre=\"%s\" score=\"%d\" />\n", entry.getKey(), entry.getValue()));
+            }
+
+            writer.write("</puntuaciones>");
+            System.out.println("Puntuación guardada correctamente en puntuaciones.xml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        Juego juego = new Juego();
+        juego.jugar();
+    }
+}

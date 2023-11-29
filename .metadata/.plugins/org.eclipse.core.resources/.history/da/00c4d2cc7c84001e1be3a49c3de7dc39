@@ -1,0 +1,162 @@
+package Vista;
+
+import javax.swing.*;
+
+import Controlador.player1;
+import Controlador.player2;
+
+import Controlador.keyHandler;
+import java.awt.Graphics;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+
+
+public class FightingGame extends JFrame implements Runnable,WindowListener {
+
+    private static final long serialVersionUID = 1L;
+
+    public static int reescalador = 2;
+    public static int ANCHURA_JUEGO = 800 * reescalador;
+    public static int ALTURA_JUEGO = 344 * reescalador;
+
+    public JPanel lienzo = new JPanel();
+    VentanaFondo fondo = new VentanaFondo();  // Agregamos el fondo
+    public JPanel juego = new JPanel();
+    private BufferStrategy bs;
+  
+    boolean running = true;
+    int FPS= 60;
+    Thread gameThread;
+    
+    
+    keyHandler keyH1 = new keyHandler();
+    keyHandler keyH2 = new keyHandler();
+    
+    //Players
+    player1 player1 = new player1(this, keyH1);
+    player2 player2 = new player2(this, keyH2);
+    
+    
+    public FightingGame() {
+        setSize(ANCHURA_JUEGO + 16, ALTURA_JUEGO + 39);
+        setTitle("Mortal Eclipse");
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        //Listener Teclados
+        addKeyListener(keyH1);
+        addKeyListener(keyH2);
+        
+        //Fondo
+        setFocusable(true);
+
+        lienzo.setLayout(null);
+        juego.setLayout(null);
+        juego.setBounds(0, 0, ANCHURA_JUEGO, ALTURA_JUEGO);
+        juego.setBackground(Color.black);
+        lienzo.add(juego);
+
+        add(lienzo);
+
+        //Personajes
+        buffer = new BufferedImage(ANCHURA_JUEGO + 16, ALTURA_JUEGO + 39, BufferedImage.TYPE_INT_ARGB);
+        
+
+        // Agregamos el fondo al panel de juego
+        juego.add(fondo);
+        configurarFondo();
+        new Thread(this).start();
+    }
+
+	private void configurarFondo() {
+		fondo.setLayout(null);
+		fondo.setBounds(((ANCHURA_JUEGO / 2) - (fondo.ANCHURA_SPRITE / 2)), ALTURA_JUEGO - fondo.ALTURA_SPRITE,
+				fondo.ANCHURA_SPRITE, fondo.ALTURA_SPRITE);
+		fondo.setVisible(true);
+		juego.add(fondo);
+	}
+
+	
+
+	
+	
+	 @Override
+	    public void run() {
+		  while (true) {
+	            update();
+	            render();
+	        }
+	    }
+
+	 private void update() {
+	        player1.update();
+	        player2.update();
+	    }
+
+	 
+	 
+	 public void render() {
+	        Graphics g = null;
+
+	        try {
+	            g = bs.getDrawGraphics();
+	            g.setColor(Color.BLACK);
+	            g.fillRect(0, 0, getWidth(), getHeight());
+
+	            player1.draw(g);
+	            player2.draw(g);
+
+	            bs.show();
+	        } finally {
+	            if (g != null) {
+	                g.dispose();
+	            }
+	        }
+	    }
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		running = false;
+		System.exit(0);		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

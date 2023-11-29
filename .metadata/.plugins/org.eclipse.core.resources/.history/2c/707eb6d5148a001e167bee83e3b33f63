@@ -1,0 +1,224 @@
+package Vista;
+
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+public class Enemy {
+
+    private double x;
+    private double y;
+    private double dx;
+    private double dy;
+    private int r;
+    private int originalSize; // Tamaño original del enemigo (sin escalar)
+    private double scale; // Factor de escala específico para el enemigo
+    private int speed;
+    private boolean setHealth;
+    private int health;
+    private boolean dead;
+    private double angle;
+    private int maxAngle;
+    private int minAngle;
+    private int type;
+    private int rank;
+    private boolean setXY;
+    private Image enemyImage;
+    private boolean setFlash;
+    private long startFlashTimer;
+    private int flashTimer;
+    private boolean slow;
+    private static final int minSpeed = 1;
+    private static final int maxSpeed = 5;
+    
+    public Enemy(int type, int rank) {
+        this.type = type;
+        this.rank = rank;
+        maxAngle = 130;
+        minAngle = 45;
+        angle = Math.toRadians(Math.random() * maxAngle + minAngle);
+        setHealth = true;
+        setXY = true;
+        scale = 1; // Puedes ajustar esto según lo que prefieras
+        speed = 3; // Establecer una velocidad común para todos los enemigos
+        init();
+        initImage(type, rank);
+    }
+
+    public Enemy(int type, int rank) {
+        this.type = type;
+        this.rank = rank;
+        maxAngle = 130;
+        minAngle = 45;
+        angle = Math.toRadians(Math.random() * maxAngle + minAngle);
+        setHealth = true;
+        setXY = true;
+        scale = 1;
+        speed = generateRandomSpeed(); // Asigna una velocidad aleatoria
+        init();
+        initImage(type, rank);
+    }
+
+    private int generateRandomSpeed() {
+        // Puedes ajustar los límites del rango de velocidad según tus preferencias
+        return (int) (Math.random() * (maxSpeed - minSpeed + 1)) + minSpeed;
+    }
+
+
+    private void initImage(int type, int rank) {
+        try {
+            String imagePath = "/res/enemy_type" + type + "_rank" + rank + ".png";
+            enemyImage = ImageIO.read(getClass().getResourceAsStream(imagePath));
+            originalSize = enemyImage.getWidth(null); // Obtener el tamaño original
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private double originalSpeed;
+
+    // Constructor y otros métodos
+
+    public void reduceSpeed() {
+        // Reducir la velocidad a la mitad (puedes ajustar este valor)
+        speed = (int) (originalSpeed / 2);
+    }
+    
+    private void init() {
+        dead = false;
+        flashTimer = 80;
+        if (type == 1) {
+            if (rank == 1) {
+                r = 1;
+                if (setHealth)
+                    health = 1;
+                scale = 0.4;
+            }
+            if (rank == 2) {
+                r = 1;
+                if (setHealth)
+                    health = 2;
+                scale = 0.1;
+            }
+        } else if (type == 2) {
+            if (rank == 1) {
+                r = 1;
+                if (setHealth)
+                    health = 3;
+                scale = 0.3;
+            } else if (rank == 2) {
+                r = 1;
+                if (setHealth)
+                    health = 4;
+                scale = 0.1;
+            }
+        } else if (type == 3) {
+            if (rank == 1) {
+                r = 1;
+                if (setHealth)
+                    health = 5;
+                scale = 0.15;
+            } else if (rank == 2) {
+                r = 1;
+                if (setHealth)
+                    health = 6;
+                scale = 0.1;
+            }
+        }
+        // Modificar el tamaño del enemigo según la escala
+        r = (int) (r * scale);
+        if (setXY) {
+            x = (Math.random() * GamePanel.WIDTH - (4 * r)) + 2 * r;
+            y = -r;
+        }
+        dx = Math.cos(angle) * speed;
+        dy = Math.sin(angle) * speed;
+    }
+
+    public double getx() {
+        return x;
+    }
+
+    public double gety() {
+        return y;
+    }
+
+    public int getr() {
+        return r;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setSlow(boolean b) {
+        slow = b;
+    }
+
+    public boolean isSlow() {
+        return slow;
+    }
+
+    public void hit() {
+        health--;
+        if (health > 0) {
+            setFlash = true;
+            startFlashTimer = System.nanoTime();
+        }
+        if (type == 1 && rank == 1 && health <= 0)
+            dead = true;
+        dead = (health <= 0);
+    }
+
+    public void update() {
+        if (slow) {
+            x += dx * 0.3;
+            y += dy * 0.3;
+            flashTimer = 500;
+        } else {
+            x += dx;
+            y += dy;
+            flashTimer = 80;
+        }
+        if (type == 1 && rank == 1)
+            health = 1;
+        if (x < r && dx < 0)
+            dx = -dx;
+        if (y < r && dy < 0)
+            dy = -dy;
+        if (x > GamePanel.WIDTH - r && dx > 0)
+            dx = -dx;
+        if (y > GamePanel.HEIGHT - r && dy > 0)
+            dy = -dy;
+        if (health > 1) {
+            long elapsed = (System.nanoTime() - startFlashTimer) / 1000000;
+            if (elapsed > flashTimer) {
+                setFlash = false;
+                startFlashTimer = 0;
+            }
+        }
+    }
+
+    public void draw(Graphics2D g) {
+        // Dibujar el enemigo escalado
+        int scaledSize = (int) (originalSize * scale);
+        g.drawImage(enemyImage, (int) x - scaledSize / 2, (int) y - scaledSize / 2, scaledSize, scaledSize, null);
+    }
+}

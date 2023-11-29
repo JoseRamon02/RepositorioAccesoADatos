@@ -1,0 +1,46 @@
+package Controlador;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import Vista.FightingGame;
+
+public class player2 extends Entidad {
+
+    private static FightingGame fg;
+    private static keyHandler keyH;
+
+    public player2(FightingGame fg, keyHandler keyH) {
+        this.fg = fg;
+        this.keyH = keyH;
+        setDefaultValues();
+    }
+
+    public void setDefaultValues() {
+        x = 200; // Posición inicial diferente para player2
+        y = 200; // Posición inicial diferente para player2
+        speed = 4;
+    }
+
+    public void update() {
+        if (keyH.player2Up) {
+            y -= speed;
+        } else if (keyH.player2Down) {
+            y += speed;
+        } else if (keyH.player2Left) {
+            x -= speed;
+        } else if (keyH.player2Right) {
+            x += speed;
+        }
+    }
+
+    public static void draw(Graphics g) {
+        g.setColor(Color.blue); // Cambiado a color azul para distinguir a player2
+        try {
+            g.fillRect(x + 100, y, 20, 20);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

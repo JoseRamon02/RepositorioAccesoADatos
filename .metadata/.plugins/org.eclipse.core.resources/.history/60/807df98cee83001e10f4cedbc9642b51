@@ -1,0 +1,52 @@
+package Controlador;
+
+
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import Vista.FightingGame;
+
+public class player1 extends Entidad{
+
+	FightingGame fg;
+	keyHandler keyH;
+	
+	public player1(FightingGame fg, keyHandler keyH) {
+		this.fg = fg;
+		this.keyH = keyH;
+		setDefaultValues();
+	}
+	
+	public void setDefaultValues() {
+		x = 100;
+		y = 100;
+		speed = 4;
+		
+	}
+	
+	public void update() {
+		if (keyH.upPressed) {
+			y -= speed;
+		} else if (keyH.downPressed) {
+			y += speed;
+		} else if (keyH.leftPressed) {
+			x -= speed;
+		} else if (keyH.rightPressed) {
+			x += speed;
+		}
+	}
+	public static void draw(Graphics2D g2) {
+		g2.setColor(Color.white);
+
+		try {
+			g2.fillRect(x, y, player1.tileSize, fg.tileSize);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+}
