@@ -1,5 +1,5 @@
-GitRepositoriesView.GitDirectories=D\:\\GIT\\Accesoadatos\\maets\\RepAccesoMaets\\.git;
-GitRepositoriesView.GitDirectories.relative=maets\\RepAccesoMaets\\.git;
+GitRepositoriesView.GitDirectories=D\:\\GIT\\Accesoadatos\\RepositorioAccesoADatos\\maets\\RepAccesoMaets\\.git;D\:\\GIT\\Accesoadatos\\RepositorioAccesoADatos\\.git;
+GitRepositoriesView.GitDirectories.relative=maets\\RepAccesoMaets\\.git;.git;
 RepositorySearchDialogDeepSearch=false
 RepositorySearchDialogSearchPath=D\:\\GIT
 eclipse.preferences.version=1

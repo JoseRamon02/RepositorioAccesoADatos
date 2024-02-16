@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.awt.Image"/>
-    <fullyQualifiedTypeName name="java.awt.Dimension"/>
-    <fullyQualifiedTypeName name="javax.swing.JPanel"/>
-    <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
-    <fullyQualifiedTypeName name="Vista.VentanaFondo"/>
-    <fullyQualifiedTypeName name="Controlador.Entidad"/>
-    <fullyQualifiedTypeName name="Vista.FightingGame"/>
-    <fullyQualifiedTypeName name="java.lang.Runnable"/>
-    <fullyQualifiedTypeName name="java.awt.Color"/>
-    <fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
     <fullyQualifiedTypeName name="javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler"/>
     <fullyQualifiedTypeName name="Controlador.keyHandler"/>
     <fullyQualifiedTypeName name="java.lang.Thread"/>
@@ -57,7 +47,17 @@
     <fullyQualifiedTypeName name="javax.swing.text.Document"/>
     <fullyQualifiedTypeName name="javax.swing.text.Element"/>
     <fullyQualifiedTypeName name="javax.xml.parsers.DocumentBuilderFactory"/>
-    <fullyQualifiedTypeName name="org.w3c.dom.Document"/>
     <fullyQualifiedTypeName name="org.w3c.dom.NodeList"/>
+    <fullyQualifiedTypeName name="javax.xml.bind.annotation.XmlType"/>
+    <fullyQualifiedTypeName name="javax.xml.bind.annotation.XmlElement"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="org.w3c.dom.Document"/>
     <fullyQualifiedTypeName name="org.w3c.dom.Element"/>
+    <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
+    <fullyQualifiedTypeName name="javax.xml.bind.Unmarshaller"/>
+    <fullyQualifiedTypeName name="Biblio.InterfazBiblioteca"/>
+    <fullyQualifiedTypeName name="Biblio.Biblioteca"/>
+    <fullyQualifiedTypeName name="Biblio.CategoriaLibros"/>
+    <fullyQualifiedTypeName name="Biblio.Libro"/>
+    <fullyQualifiedTypeName name="javax.xml.bind.JAXBContext"/>
 </qualifiedTypeNameHistroy>
