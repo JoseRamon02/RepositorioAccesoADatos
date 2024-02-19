@@ -2,31 +2,23 @@ package Biblio;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -36,22 +28,23 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class InterfazBiblioteca {
 
 	// ATRIBUTOS
 	static Biblioteca biblioteca = new Biblioteca();
-
+     
 	private static JFrame frame;
 	private static JPanel panelConFondo;
-	private static JButton botonAnimado = new JButton("Bienvenido a la Biblioteca");
-	private static GridBagConstraints constraints;
 	private static JPanel panelBotonesLibros = new JPanel(new GridBagLayout());
 	private static JPanel panelBotones = new JPanel(new GridBagLayout());
+	private static GridBagConstraints constraints;
 	private static BufferedImage imagenFondo = null;
 	private static Dimension dimensionFija = new Dimension(200, 80);;
 	private static JTextArea textArea;
 	private static JScrollPane scrollPane;
+	private static JButton botonAnimado = new JButton("Bienvenido a la Biblioteca");
 	private static JButton botonLibros = new JButton("Libros");
 	private static JButton botonMostrarXML = new JButton("Mostrar xml");
 	private static JButton botonOtrosDatos = new JButton("Otros Datos");
@@ -62,23 +55,25 @@ public class InterfazBiblioteca {
 	private static JButton botonDesplegarTecnicos = new JButton();
 
 	private static JButton btnModificarTitulo = new JButton("<html>Modificar<br>Título</html>");
-	private static JButton btnAgregarLibro = new JButton("<html>Agregar<br>Película</html>");
+	private static JButton btnAgregarLibro = new JButton("<html>Agregar<br>Libro</html>");
 	private static JButton btnEliminarContenido = new JButton("<html>Eliminar<br>Contenido</html>");
 	private static JButton btnLectores = new JButton("<html>Lectores<br>Anuales</html>");
-
+	
 	// Opciones de los desplegables
-	private static String[] opcionesLibrosLiteratura = { "Cien años de soledad", "1984", "El señor de los anillos",
-			"Orgullo y prejuicio", "Don Quijote de la Mancha" };
-	private static String[] opcionesLibrosConsultayReferencia = { "Enciclopedia Britannica",
-			"Diccionario de la lengua española", "Atlas mundial", "Guinness World Records", "The Elements of Style" };
-	private static String[] opcionesLibrosInfantiles = { "Harry Potter and the Philosopher's Stone",
-			"Where the Wild Things Are", "The Very Hungry Caterpillar", "Matilda", "Charlotte's Web" };
-	private static String[] opcionesLibrosDivulgativos = { "Cosmos", "A Brief History of Time",
-			"Sapiens: A Brief History of Humankind", "The Power of Habit", "Freakonomics" };
-	private static String[] opcionesLibrosTecnicos = { "Clean Code", "Introduction to Algorithms", "Design Patterns",
-			"The Pragmatic Programmer", "Cracking the Coding Interview" };
+		private static String[] opcionesLibrosLiteratura = { "Cien años de soledad", "1984", "El señor de los anillos",
+				"Orgullo y prejuicio", "Don Quijote de la Mancha" };
+		private static String[] opcionesLibrosConsultayReferencia = { "Enciclopedia Britannica",
+				"Diccionario de la lengua española", "Atlas mundial", "Guinness World Records", "The Elements of Style" };
+		private static String[] opcionesLibrosInfantiles = { "Harry Potter and the Philosopher's Stone",
+				"Where the Wild Things Are", "The Very Hungry Caterpillar", "Matilda", "Charlotte's Web" };
+		private static String[] opcionesLibrosDivulgativos = { "Cosmos", "A Brief History of Time",
+				"Sapiens: A Brief History of Humankind", "The Power of Habit", "Freakonomics" };
+		private static String[] opcionesLibrosTecnicos = { "Clean Code: A Handbook of Agile Software Craftsmanship", "Introduction to Algorithms", "Design Patterns: Elements of Reusable Object-Oriented",
+				"The Pragmatic Programmer: Your Journey to Mastery", "Cracking the Coding Interview" };
 
-	// JComboBox para las películas
+		
+
+	// JComboBox para los libros
 	private static JComboBox<String> desplegableLibrosLiteratura = new JComboBox<>(opcionesLibrosLiteratura);
 	private static JComboBox<String> desplegableLibrosConsultayReferencia = new JComboBox<>(opcionesLibrosConsultayReferencia);
 	private static JComboBox<String> desplegableLibrosInfantiles = new JComboBox<>(opcionesLibrosInfantiles);
@@ -109,7 +104,7 @@ public class InterfazBiblioteca {
 
 	public static void initialize() {
 		frame = new JFrame("Bienvenido a la Biblioteca");
-		frame.setSize(1150, 750);
+		frame.setSize(1680, 660);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
@@ -118,13 +113,14 @@ public class InterfazBiblioteca {
 
 		if (archivo.exists()) {
 			biblioteca = Metodos.reutilizarXML();
+			actualizarDesplegablesDesdeXML();
 		} else {
 			
 			biblioteca = Metodos.crearXML();
 		}
 
 		try {
-			imagenFondo = ImageIO.read(new File("IMG\\portadaMM.jpg"));
+			imagenFondo = ImageIO.read(new File("IMG/portadaMM.jpg"));
 			panelConFondo = new JPanel() {
 				@Override
 				protected void paintComponent(Graphics g) {
@@ -137,8 +133,8 @@ public class InterfazBiblioteca {
 			panelConFondo = new JPanel();
 		}
 
-		botonAnimado.setBackground(new Color(0, 123, 255));
-		botonAnimado.setForeground(Color.WHITE);
+		botonAnimado.setBackground(new Color(255, 255, 153));
+		botonAnimado.setForeground(Color.BLACK);
 		botonAnimado.setFocusPainted(false);
 		botonAnimado.setBorderPainted(false);
 		botonAnimado.setOpaque(true);
@@ -150,21 +146,24 @@ public class InterfazBiblioteca {
 				abrirXML();
 				botonAnimado.setVisible(false);
 				botonAnimado.setEnabled(false);
-				btnVolver.setVisible(true);
-				btnVolver.setEnabled(true);
+				
 			}
 		});
 
+		
 		panelConFondo.setLayout(new GridBagLayout());
 		constraints = new GridBagConstraints();
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.insets = new Insets(150, 0, 0, 0);
-
+		botonAnimado.setPreferredSize(new Dimension(200, 50)); 
+	     
+	     MovimienoBotonAnimado();
+	     
 		panelConFondo.add(botonAnimado, constraints);
 
-		btnVolver.setBackground(new Color(255, 0, 0));
-		btnVolver.setForeground(Color.WHITE);
+		btnVolver.setBackground(new Color(255, 255, 153));
+		btnVolver.setForeground(Color.BLACK);
 		btnVolver.setFocusPainted(false);
 		btnVolver.setBorderPainted(false);
 		btnVolver.setOpaque(true);
@@ -189,10 +188,56 @@ public class InterfazBiblioteca {
 
 		// Agrega el botón "Volver al Inicio" al panel
 		panelConFondo.add(btnVolver, constraints);
-
+		
 		frame.add(panelConFondo);
 	}
 
+	public static void MovimienoBotonAnimado() {    // Crear e iniciar un nuevo hilo para mover el botón
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int x = 0;
+                int y = 0;
+                int deltaX = 5;
+                int deltaY = 2;
+
+                while (true) {
+                    // Calcular las nuevas coordenadas
+                    int newX = x + deltaX;
+                    int newY = y + deltaY;
+
+                    // Cambiar la dirección si alcanza los límites del panel
+                    if (newX <= 0 || newX >= panelConFondo.getWidth() - botonAnimado.getWidth()) {
+                        deltaX *= -1;
+                    }
+                    if (newY <= 0 || newY >= panelConFondo.getHeight() - botonAnimado.getHeight()) {
+                        deltaY *= -1;
+                    }
+
+                    // Actualizar las coordenadas del botón en el hilo de la interfaz gráfica
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                        	botonAnimado.setLocation(newX, newY);
+                        }
+                    });
+
+                    // Actualizar las coordenadas actuales
+                    x = newX;
+                    y = newY;
+
+                    // Esperar un breve período antes de la siguiente actualización
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start(); // Iniciar el hilo}
+	}
+	
 	public static void abrirXML() {
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -201,14 +246,14 @@ public class InterfazBiblioteca {
 		botonMostrarXML = new JButton("Mostrar xml");
 		botonOtrosDatos = new JButton("Otros Datos");
 
-		Color colorFijo = new Color(0, 80, 250);
+		Color colorFijo = new Color(255, 255, 153);
 		botonLibros.setBackground(colorFijo);
 		botonMostrarXML.setBackground(colorFijo);
 		botonOtrosDatos.setBackground(colorFijo);
 
-		botonLibros.setForeground(Color.WHITE);
-		botonMostrarXML.setForeground(Color.WHITE);
-		botonOtrosDatos.setForeground(Color.WHITE);
+		botonLibros.setForeground(Color.BLACK);
+		botonMostrarXML.setForeground(Color.BLACK);
+		botonOtrosDatos.setForeground(Color.BLACK);
 
 		botonLibros.setFocusPainted(false);
 
@@ -231,11 +276,11 @@ public class InterfazBiblioteca {
 		botonOtrosDatos.setPreferredSize(dimensionFija);
 
 		constraints.gridx = 0;
-		constraints.gridy = 0;
+		constraints.gridy = 1;
 		constraints.insets = new Insets(20, 20, 20, 20);
 		panelBotonesLibros.add(botonLibros, constraints);
 
-		constraints.gridx = 0;
+		constraints.gridx = 2;
 		constraints.gridy = 1;
 		panelBotonesLibros.add(botonMostrarXML, constraints);
 
@@ -245,38 +290,80 @@ public class InterfazBiblioteca {
 		panelBotonesLibros.setOpaque(false);
 
 		botonLibros.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				agregarDesplegablesPeliculas();
-				botonLibros.setVisible(false);
-				botonMostrarXML.setVisible(false);
-				botonOtrosDatos.setVisible(false);
-				btnVolver.setVisible(true);
-				btnVolver.setEnabled(true);
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        // Agregar desplegables de libros
+		    
+		        agregarDesplegablesLibros();
+		        botonLibros.setVisible(false);
+		        botonMostrarXML.setVisible(false);
+		        botonOtrosDatos.setVisible(false);
+		        btnVolver.setVisible(true);
+		        btnVolver.setEnabled(true);
+		        
 
-				// Volvemos a activar los desplegables de las películas
-				desplegableLibrosLiteratura.setVisible(true);
-				desplegableLibrosLiteratura.setEnabled(true);
+		        // Array con los nombres de las categorías
+		        String[] categorias = {"Literatura", "Consulta y Referencia", "Infantiles", "Divulgativos", "Técnicos"};
 
-				desplegableLibrosConsultayReferencia.setVisible(true);
-				desplegableLibrosConsultayReferencia.setEnabled(true);
+		     // Primero, declara una lista para almacenar las etiquetas de categoría
+		        ArrayList<JLabel> listaEtiquetas = new ArrayList<>();
 
-				desplegableLibrosInfantiles.setVisible(true);
-				desplegableLibrosInfantiles.setEnabled(true);
+		        // Agregar etiquetas de categoría con fondo azul y texto blanco y más grande
+		        for (int i = 0; i < categorias.length; i++) {
+		            JLabel label = new JLabel(categorias[i], SwingConstants.CENTER);
+		            label.setOpaque(true); // Hacer el fondo visible
+		            label.setBackground(Color.YELLOW); // Establecer el fondo azul
+		            label.setForeground(Color.BLACK); // Establecer el color del texto a blanco
+		            label.setFont(label.getFont().deriveFont(Font.BOLD, 16f)); // Aumentar el tamaño de la fuente
+		            GridBagConstraints gbc = new GridBagConstraints();
+		            gbc.gridx = i;
+		            gbc.gridy = 0;
+		            gbc.weightx = 1.0;
+		            gbc.fill = GridBagConstraints.HORIZONTAL;
+		            panelBotonesLibros.add(label, gbc);
+		            
+		            // Agregar la etiqueta actual a la lista
+		            listaEtiquetas.add(label);
+		        }
 
-				desplegableLibrosDivulgativos.setVisible(true);
-				desplegableLibrosDivulgativos.setEnabled(true);
+		        // Luego, configura un ActionListener para el botón "volver"
+		        btnVolver.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		                // Itera sobre la lista de etiquetas y elimínalas del panel
+		                for (JLabel etiqueta : listaEtiquetas) {
+		                    panelBotonesLibros.remove(etiqueta);
+		                }
+		                // Asegúrate de que el panel se vuelva a pintar correctamente
+		                panelBotonesLibros.revalidate();
+		                panelBotonesLibros.repaint();
+		            }
+		        });
 
-				desplegableLibrosTecnicos.setVisible(true);
-				desplegableLibrosTecnicos.setEnabled(true);
-			}
+		        // Volvemos a activar los desplegables de los libros
+		        desplegableLibrosLiteratura.setVisible(true);
+		        desplegableLibrosConsultayReferencia.setVisible(true);
+		        desplegableLibrosInfantiles.setVisible(true);
+		        desplegableLibrosDivulgativos.setVisible(true);
+		        desplegableLibrosTecnicos.setVisible(true);
+		    
+		        desplegableLibrosLiteratura.setEnabled(true);
+		        desplegableLibrosConsultayReferencia.setEnabled(true);
+		        desplegableLibrosInfantiles.setEnabled(true);
+		        desplegableLibrosDivulgativos.setEnabled(true);
+		        desplegableLibrosTecnicos.setEnabled(true);
+		        
+		    }
 		});
+
+
+
+
 
 		botonMostrarXML.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				String mostrar = Metodos.leerXML("Biblioteca.xml");
+				String mostrar = Metodos.leerXML("ArchivoXML/Biblioteca.xml");
 				textArea = new JTextArea(20, 40); // Crear un JTextArea con 20 filas y 40 columnas
 				textArea.setText(mostrar);
 
@@ -298,6 +385,7 @@ public class InterfazBiblioteca {
 				botonLibros.setVisible(false);
 				botonMostrarXML.setVisible(false);
 				botonOtrosDatos.setVisible(false);
+
 				btnVolver.setVisible(true);
 				btnVolver.setEnabled(true);
 			}
@@ -307,13 +395,70 @@ public class InterfazBiblioteca {
 		panelConFondo.revalidate();
 	}
 
-	//////////////////////////////////////////////////
-	//////////////////////////////////////////////////
-	////////// MODIFICAR IMAGENES///////////////////////
-	///////////////////////////////////////////////////
-	////////////////////////////////////////////////////
+	static void actualizarDesplegablesDesdeXML() {
+	    // Actualizar opciones de Literatura
+	    opcionesLibrosLiteratura = obtenerTitulosDesdeXML("literatura");
+	    desplegableLibrosLiteratura.setModel(new DefaultComboBoxModel<>(opcionesLibrosLiteratura));
 
-	public static void agregarDesplegablesPeliculas() {
+	    // Actualizar opciones de Consulta y Referencia
+	    opcionesLibrosConsultayReferencia = obtenerTitulosDesdeXML("consultayreferencia");
+	    desplegableLibrosConsultayReferencia.setModel(new DefaultComboBoxModel<>(opcionesLibrosConsultayReferencia));
+
+	    // Actualizar opciones de Infantiles
+	    opcionesLibrosInfantiles = obtenerTitulosDesdeXML("infantiles");
+	    desplegableLibrosInfantiles.setModel(new DefaultComboBoxModel<>(opcionesLibrosInfantiles));
+
+	    // Actualizar opciones de Divulgativos
+	    opcionesLibrosDivulgativos = obtenerTitulosDesdeXML("divulgativos");
+	    desplegableLibrosDivulgativos.setModel(new DefaultComboBoxModel<>(opcionesLibrosDivulgativos));
+
+	    // Actualizar opciones de Tecnicos
+	    opcionesLibrosTecnicos = obtenerTitulosDesdeXML("tecnicos");
+	    desplegableLibrosTecnicos.setModel(new DefaultComboBoxModel<>(opcionesLibrosTecnicos));
+	}
+	
+	public static String[] obtenerTitulosDesdeXML(String categoria) {
+	    List<String> titulos = new ArrayList<>();
+	    switch (categoria) {
+	        case "literatura":
+	            for (Libro libro : CategoriaLibros.librosLiteratura) {
+	                titulos.add(libro.getTitulo());
+	            }
+	            break;
+	        case "consultayreferencia":
+	            for (Libro libro : CategoriaLibros.librosConsultayReferencia) {
+	                titulos.add(libro.getTitulo());
+	            }
+	            break;
+	        case "infantiles":
+	            for (Libro libro : CategoriaLibros.librosInfantiles) {
+	                titulos.add(libro.getTitulo());
+	            }
+	            break;
+	        case "divulgativos":
+	            for (Libro libro : CategoriaLibros.librosDivulgativos) {
+	                titulos.add(libro.getTitulo());
+	            }
+	            break;
+	        case "tecnicos":
+	            for (Libro libro : CategoriaLibros.librosTecnicos) {
+	                titulos.add(libro.getTitulo());
+	            }
+	            break;
+	        default:
+	            System.out.println("Categoría no válida.");
+	    }
+	    return titulos.toArray(new String[0]); // Convertir lista a arreglo de cadenas
+	}
+
+	
+	public static void agregarDesplegablesLibros() {
+		
+		botonDesplegarLiteratura.setEnabled(true);
+		botonDesplegarConsultayReferencia.setEnabled(true);
+		botonDesplegarInfantiles.setEnabled(true);
+		botonDesplegarDivulgativos.setEnabled(true);
+		botonDesplegarTecnicos.setEnabled(true);
 		GridBagConstraints constraints = new GridBagConstraints();
 
 		// Literatura
@@ -321,6 +466,7 @@ public class InterfazBiblioteca {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				opcionesLibrosLiteratura = new String[biblioteca.getLibros().getLibrosLiteratura().size()];
+				
 				for (int i = 0; i < biblioteca.getLibros().getLibrosLiteratura().size(); i++) {
 					opcionesLibrosLiteratura[i] = biblioteca.getLibros().getLibrosLiteratura().get(i).getTitulo();
 				}
@@ -383,19 +529,14 @@ public class InterfazBiblioteca {
 			}
 		});
 
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//////////MODIFICAR IMAGENES///////////////////////
-///////////////////////////////////////////////////
-////////////////////////////////////////////////////
 		desplegableLibrosLiteratura.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String libroSeleccionado = (String) desplegableLibrosLiteratura.getSelectedItem();
 
-				// Obtenemos la información de la película
+				// Obtenemos la información del libro
 				String infoLibro = Metodos.obtenerInfoPorTitulo(biblioteca, libroSeleccionado);
-
+				
 				// Mostramos la información en un diálogo de mensaje (JOptionPane)
 				JOptionPane.showMessageDialog(frame, infoLibro, "Información del libro: " + libroSeleccionado,
 						JOptionPane.INFORMATION_MESSAGE);
@@ -408,7 +549,7 @@ public class InterfazBiblioteca {
 			public void actionPerformed(ActionEvent e) {
 				String libroSeleccionado = (String) desplegableLibrosConsultayReferencia.getSelectedItem();
 
-				// Obtenemos la información de la película
+				// Obtenemos la información del libro
 				String infoLibro = Metodos.obtenerInfoPorTitulo(biblioteca, libroSeleccionado);
 
 		
@@ -425,7 +566,7 @@ public class InterfazBiblioteca {
 			public void actionPerformed(ActionEvent e) {
 				String libroSeleccionado = (String) desplegableLibrosInfantiles.getSelectedItem();
 
-				// Obtenemos la información de la película
+				// Obtenemos la información del libro
 				String infoLibro = Metodos.obtenerInfoPorTitulo(biblioteca, libroSeleccionado);
 
 
@@ -440,7 +581,7 @@ public class InterfazBiblioteca {
 			public void actionPerformed(ActionEvent e) {
 				String libroSeleccionado = (String) desplegableLibrosDivulgativos.getSelectedItem();
 
-				// Obtenemos la información de la película
+				// Obtenemos la información del libro
 				String infoLibro = Metodos.obtenerInfoPorTitulo(biblioteca, libroSeleccionado);
 
 			
@@ -455,7 +596,7 @@ public class InterfazBiblioteca {
 			public void actionPerformed(ActionEvent e) {
 				String libroSeleccionado = (String) desplegableLibrosTecnicos.getSelectedItem();
 
-				// Obtenemos la información de la película
+				// Obtenemos la información del libro
 				String infoLibro = Metodos.obtenerInfoPorTitulo(biblioteca, libroSeleccionado);
 
 			
@@ -465,63 +606,67 @@ public class InterfazBiblioteca {
 			}
 		});
 
+		// Configuración de la alineación horizontal de los componentes
 		((JLabel) desplegableLibrosLiteratura.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		((JLabel) desplegableLibrosConsultayReferencia.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		((JLabel) desplegableLibrosInfantiles.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		((JLabel) desplegableLibrosDivulgativos.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		((JLabel) desplegableLibrosTecnicos.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
+		// Establecer la dimensión fija para todos los componentes desplegables
+		Dimension dimensionFija = new Dimension(300, 30);
 		desplegableLibrosLiteratura.setPreferredSize(dimensionFija);
 		desplegableLibrosConsultayReferencia.setPreferredSize(dimensionFija);
 		desplegableLibrosInfantiles.setPreferredSize(dimensionFija);
 		desplegableLibrosDivulgativos.setPreferredSize(dimensionFija);
 		desplegableLibrosTecnicos.setPreferredSize(dimensionFija);
 
-		constraints.gridx = 0;
-		constraints.gridy = 2;
-		constraints.insets = new Insets(20, 20, 20, 20);
+		// Establecer las restricciones del GridBagConstraints
+		constraints = new GridBagConstraints();
+		constraints.gridx = 0; // Columna inicial
+		constraints.gridy = 2; // Fila donde se agregarán los componentes
+		constraints.insets = new Insets(20, 20, 20, 20); // Espacio entre componentes
 
+		// Agregar los componentes al panel con el GridBagConstraints configurado
 		panelBotonesLibros.add(desplegableLibrosLiteratura, constraints);
-		constraints.gridx = 1;
+
+		// Actualizar las restricciones para la siguiente columna y agregar el siguiente componente
+		constraints.gridx++;
 		panelBotonesLibros.add(desplegableLibrosConsultayReferencia, constraints);
-		constraints.gridx = 2;
+
+		// Repetir el proceso para los otros componentes
+		constraints.gridx++;
 		panelBotonesLibros.add(desplegableLibrosInfantiles, constraints);
-		constraints.gridx = 3;
+
+		constraints.gridx++;
 		panelBotonesLibros.add(desplegableLibrosDivulgativos, constraints);
-		constraints.gridx = 4;
+
+		constraints.gridx++;
 		panelBotonesLibros.add(desplegableLibrosTecnicos, constraints);
 
-		constraints.gridx = 0;
-		panelBotonesLibros.add(desplegableLibrosLiteratura, constraints);
-		constraints.gridx = 1;
-		panelBotonesLibros.add(desplegableLibrosConsultayReferencia, constraints);
-		constraints.gridx = 2;
-		panelBotonesLibros.add(desplegableLibrosInfantiles, constraints);
-		constraints.gridx = 3;
-		panelBotonesLibros.add(desplegableLibrosDivulgativos, constraints);
-		constraints.gridx = 3;
-		panelBotonesLibros.add(desplegableLibrosTecnicos, constraints);
-
+		// Revalidar el panel para actualizar la presentación
 		panelConFondo.revalidate();
+
 	}
 
 
 	public static void desplegarOtrosDatos() {
 		frame.getContentPane().add(panelBotones, BorderLayout.CENTER);
-		GridBagConstraints constraints = new GridBagConstraints();
+		
+		constraints = new GridBagConstraints();
 		panelBotones.setVisible(true);
 		panelBotones.setEnabled(true);
 
-		Color colorFijo = new Color(0, 80, 250);
+		Color colorFijo = new Color(255, 255, 153);
 		btnModificarTitulo.setBackground(colorFijo);
 		btnAgregarLibro.setBackground(colorFijo);
 		btnEliminarContenido.setBackground(colorFijo);
 		btnLectores.setBackground(colorFijo);
 
-		btnModificarTitulo.setForeground(Color.WHITE);
-		btnAgregarLibro.setForeground(Color.WHITE);
-		btnEliminarContenido.setForeground(Color.WHITE);
-		btnLectores.setForeground(Color.WHITE);
+		btnModificarTitulo.setForeground(Color.BLACK);
+		btnAgregarLibro.setForeground(Color.BLACK);
+		btnEliminarContenido.setForeground(Color.BLACK);
+		btnLectores.setForeground(Color.BLACK);
 
 		btnModificarTitulo.setFocusPainted(false);
 		btnAgregarLibro.setFocusPainted(false);
@@ -553,19 +698,29 @@ public class InterfazBiblioteca {
 		btnEliminarContenido.setEnabled(true);
 		btnLectores.setEnabled(true);
 
+		GridBagConstraints constraintsVolver = new GridBagConstraints();
+		
+		  // Configura las restricciones para el botón "Volver"
+		constraintsVolver.gridx = 0;
+		constraintsVolver.gridy = GridBagConstraints.RELATIVE;
+		constraintsVolver.gridwidth = 4;
+		constraintsVolver.anchor = GridBagConstraints.CENTER;
+		constraintsVolver.insets = new Insets(20, 20, 20, 20);
+
+	    // Agrega el botón "Volver" al panel
+	    panelBotones.add(btnVolver, constraintsVolver);
+		
 		constraints.gridx = 0;
-		constraints.gridy = 0;
 		constraints.insets = new Insets(20, 20, 20, 20);
 		panelBotones.add(btnAgregarLibro, constraints);
 
-		constraints.gridx = 0;
-		constraints.gridy = 1;
+		constraints.gridx = 1;
 		panelBotones.add(btnModificarTitulo, constraints);
 
-		constraints.gridx = 1;
+		constraints.gridx = 2;
 		panelBotones.add(btnEliminarContenido, constraints);
 
-		constraints.gridx = 2;
+		constraints.gridx = 3;
 		panelBotones.add(btnLectores, constraints);
 
 		panelBotones.setOpaque(false);

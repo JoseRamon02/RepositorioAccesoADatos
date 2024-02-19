@@ -68,60 +68,46 @@ public class Metodos {
 		int[] lectoresIntroductionAlgorithms = { 950, 1750, 1600, 1850, 1350, 1450, 1250, 850, 2350, 1950, 1675, 1625 };
 		int[] lectoresDesignPatterns = { 1100, 1950, 1700, 2000, 1400, 1600, 1350, 800, 2100, 1900, 1750, 1550 };
 		int[] lectoresPragmaticProgrammer = { 1050, 1900, 1650, 1925, 1300, 1400, 1450, 875, 2250, 2050, 1725, 1575 };
-		int[] lectoresCrackingCodingInterview = { 980, 1740, 1480, 1870, 1250, 1350, 1420, 920, 2380, 2030, 1760,
-				1590 };
+		int[] lectoresCrackingCodingInterview = { 980, 1740, 1480, 1870, 1250, 1350, 1420, 920, 2380, 2030, 1760,1590 };
 
 		// Creación de libros
 
+		
 		// Libros de Literatura
-		Libro cienAniosSoledad = new Libro("Cien años de soledad", 2000, "Gabriel García Márquez", 5.0,lectoresCienAniosSoledad);
-		Libro libro1984 = new Libro("1984", 2001, "George Orwell", 4.8, lectores1984);
-		Libro senorAnillos = new Libro("El señor de los anillos", 2002, "J.R.R. Tolkien", 4.9, lectoresSenorAnillos);
-		Libro orgulloPrejuicio = new Libro("Orgullo y prejuicio", 2003, "Jane Austen", 4.7, lectoresOrgulloPrejuicio);
-		Libro donQuijote = new Libro("Don Quijote de la Mancha", 2004, "Miguel de Cervantes", 4.9, lectoresDonQuijote);
+		Libro cienAniosSoledad = new Libro("Cien años de soledad", 2000, "Gabriel García Márquez", 5.0,lectoresCienAniosSoledad, "literatura");
+		Libro libro1984 = new Libro("1984", 2001, "George Orwell", 4.8, lectores1984, "literatura");
+		Libro senorAnillos = new Libro("El señor de los anillos", 2002, "J.R.R. Tolkien", 4.9, lectoresSenorAnillos, "literatura");
+		Libro orgulloPrejuicio = new Libro("Orgullo y prejuicio", 2003, "Jane Austen", 4.7, lectoresOrgulloPrejuicio, "literatura");
+		Libro donQuijote = new Libro("Don Quijote de la Mancha", 2004, "Miguel de Cervantes", 4.9, lectoresDonQuijote, "literatura");
 
 		// Libros de Consulta y Referencia
-		Libro enciclopedia = new Libro("Enciclopedia Britannica", 3000, "Varios autores", 4.9, lectoresEnciclopedia);
-		Libro diccionario = new Libro("Diccionario de la lengua española", 3001, "Real Academia Española", 4.8,
-				lectoresDiccionario);
-		Libro atlasMundial = new Libro("Atlas mundial", 3002, "Varios autores", 4.7, lectoresAtlasMundial);
-		Libro guinnessWorldRecords = new Libro("Guinness World Records", 3003, "Varios autores", 4.7,
-				lectoresGuinnessWorldRecords);
-		Libro elementsOfStyle = new Libro("The Elements of Style", 3004, "William Strunk Jr. and E.B. White", 4.6,
-				lectoresElementsOfStyle);
+		Libro enciclopedia = new Libro("Enciclopedia Britannica", 3000, "Varios autores", 4.9, lectoresEnciclopedia, "consultayreferencia");
+		Libro diccionario = new Libro("Diccionario de la lengua española", 3001, "Real Academia Española", 4.8, lectoresDiccionario, "consultayreferencia");
+		Libro atlasMundial = new Libro("Atlas mundial", 3002, "Varios autores", 4.7, lectoresAtlasMundial, "consultayreferencia");
+		Libro guinnessWorldRecords = new Libro("Guinness World Records", 3003, "Varios autores", 4.7, lectoresGuinnessWorldRecords, "consultayreferencia");
+		Libro elementsOfStyle = new Libro("The Elements of Style", 3004, "William Strunk Jr. and E.B. White", 4.6, lectoresElementsOfStyle, "consultayreferencia");
 
 		// Libros Infantiles
-		Libro harryPotter = new Libro("Harry Potter and the Philosopher's Stone", 4000, "J.K. Rowling", 4.9,
-				lectoresHarryPotter);
-		Libro whereWildThings = new Libro("Where the Wild Things Are", 4001, "Maurice Sendak", 4.8,
-				lectoresWhereWildThings);
-		Libro hungryCaterpillar = new Libro("The Very Hungry Caterpillar", 4002, "Eric Carle", 4.7,
-				lectoresHungryCaterpillar);
-		Libro matilda = new Libro("Matilda", 4003, "Roald Dahl", 4.8, lectoresMatilda);
-		Libro charlottesWeb = new Libro("Charlotte's Web", 4004, "E.B. White", 4.8, lectoresCharlottesWeb);
+		Libro harryPotter = new Libro("Harry Potter and the Philosopher's Stone", 4000, "J.K. Rowling", 4.9, lectoresHarryPotter, "infantiles");
+		Libro whereWildThings = new Libro("Where the Wild Things Are", 4001, "Maurice Sendak", 4.8, lectoresWhereWildThings, "infantiles");
+		Libro hungryCaterpillar = new Libro("The Very Hungry Caterpillar", 4002, "Eric Carle", 4.7, lectoresHungryCaterpillar, "infantiles");
+		Libro matilda = new Libro("Matilda", 4003, "Roald Dahl", 4.8, lectoresMatilda, "infantiles");
+		Libro charlottesWeb = new Libro("Charlotte's Web", 4004, "E.B. White", 4.8, lectoresCharlottesWeb, "infantiles");
 
 		// Libros Divulgativos
-		Libro cosmos = new Libro("Cosmos", 5000, "Carl Sagan", 4.9, lectoresCosmos);
-		Libro briefHistoryTime = new Libro("A Brief History of Time", 5001, "Stephen Hawking", 4.8,
-				lectoresBriefHistoryTime);
-		Libro sapiens = new Libro("Sapiens: A Brief History of Humankind", 5002, "Yuval Noah Harari", 4.7,
-				lectoresSapiens);
-		Libro powerOfHabit = new Libro("The Power of Habit", 5003, "Charles Duhigg", 4.6, lectoresPowerOfHabit);
-		Libro freakonomics = new Libro("Freakonomics", 5004, "Steven D. Levitt and Stephen J. Dubner", 4.7,
-				lectoresFreakonomics);
+		Libro cosmos = new Libro("Cosmos", 5000, "Carl Sagan", 4.9, lectoresCosmos, "divulgativos");
+		Libro briefHistoryTime = new Libro("A Brief History of Time", 5001, "Stephen Hawking", 4.8, lectoresBriefHistoryTime, "divulgativos");
+		Libro sapiens = new Libro("Sapiens: A Brief History of Humankind", 5002, "Yuval Noah Harari", 4.7, lectoresSapiens, "divulgativos");
+		Libro powerOfHabit = new Libro("The Power of Habit", 5003, "Charles Duhigg", 4.6, lectoresPowerOfHabit, "divulgativos");
+		Libro freakonomics = new Libro("Freakonomics", 5004, "Steven D. Levitt and Stephen J. Dubner", 4.7, lectoresFreakonomics, "divulgativos");
 
 		// Libros Técnicos
-		Libro cleanCode = new Libro("Clean Code: A Handbook of Agile Software Craftsmanship", 6000, "Robert C. Martin",
-				4.9, lectoresCleanCode);
-		Libro introductionAlgorithms = new Libro("Introduction to Algorithms", 6001,
-				"Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein", 4.8,
-				lectoresIntroductionAlgorithms);
-		Libro designPatterns = new Libro("Design Patterns: Elements of Reusable Object-Oriented Software", 6002,
-				"Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides", 4.7, lectoresDesignPatterns);
-		Libro pragmaticProgrammer = new Libro("The Pragmatic Programmer: Your Journey to Mastery", 6003,
-				"Andrew Hunt and David Thomas", 4.6, lectoresPragmaticProgrammer);
-		Libro crackingCodingInterview = new Libro("Cracking the Coding Interview", 6004, "Gayle Laakmann McDowell", 4.7,
-				lectoresCrackingCodingInterview);
+		Libro cleanCode = new Libro("Clean Code: A Handbook of Agile Software Craftsmanship", 6000, "Robert C. Martin", 4.9, lectoresCleanCode, "tecnicos");
+		Libro introductionAlgorithms = new Libro("Introduction to Algorithms", 6001, "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein", 4.8, lectoresIntroductionAlgorithms, "tecnicos");
+		Libro designPatterns = new Libro("Design Patterns: Elements of Reusable Object-Oriented Software", 6002, "Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides", 4.7, lectoresDesignPatterns, "tecnicos");
+		Libro pragmaticProgrammer = new Libro("The Pragmatic Programmer: Your Journey to Mastery", 6003, "Andrew Hunt and David Thomas", 4.6, lectoresPragmaticProgrammer, "tecnicos");
+		Libro crackingCodingInterview = new Libro("Cracking the Coding Interview", 6004, "Gayle Laakmann McDowell", 4.7, lectoresCrackingCodingInterview, "tecnicos");
+
 
 		// ADDs
 
@@ -173,7 +159,7 @@ public class Metodos {
 			Marshaller marshaller = context.createMarshaller();
 
 			// Marshalling de Biblioteca
-			System.out.println("llego aqui");
+			
 			marshaller.marshal(biblioteca, new File("ArchivoXML/Biblioteca.xml"));
 			System.out.println("Archivo generado");
 
@@ -186,6 +172,21 @@ public class Metodos {
 
 	}
 
+	
+	    public static Biblioteca cargarBibliotecaDesdeXML(String archivoXML) {
+	        try {
+	            File file = new File(archivoXML);
+	            JAXBContext jaxbContext = JAXBContext.newInstance(Biblioteca.class);
+
+	            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+	            return (Biblioteca) jaxbUnmarshaller.unmarshal(file);
+	        } catch (JAXBException e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+	    }
+	
+	
 	public static String leerXML(String rutaArchivoXML) {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -324,11 +325,13 @@ public class Metodos {
 
 				if (encontrado) {
 					JOptionPane.showMessageDialog(null, "Título modificado correctamente!");
+					InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"No se encontró ningun libro con el código " + codigo);
 				}
 
+				
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(null, "Por favor, introduce un código válido.");
 			}
@@ -381,6 +384,8 @@ public class Metodos {
 
 			if (encontrado) {
 				JOptionPane.showMessageDialog(null, "Título modificado correctamente!");
+				InterfazBiblioteca.actualizarDesplegablesDesdeXML();
+			
 			} else {
 				JOptionPane.showMessageDialog(null,
 						"No se encontró ningun libro con el título " + tituloBusqueda);
@@ -394,18 +399,21 @@ public class Metodos {
 			// Marshalling de Biblioteca
 			marshaller.marshal(biblioteca, new File("ArchivoXML/Biblioteca.xml"));
 
-			System.out.println("achivo realisado");
+			System.out.println("Archivo realizado");
 		} catch (JAXBException e) {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	
+	
 
 	public static void lectoresAnuales(Biblioteca biblioteca) {
 		String[] opciones = { "Buscar por código", "Buscar por título" };
 		double lectoresAnuales = 0;
 		double porcentaje = 0;
 		String respuesta = "";
-		double espectadoresTotales = lectoresTotales(biblioteca);
+		double lectoresTotales = lectoresTotales(biblioteca);
 		int opcionSeleccionada = JOptionPane.showOptionDialog(null, "¿Cómo deseas buscar el libro?",
 				"Selecciona una opción", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones,
 				opciones[0]);
@@ -416,7 +424,7 @@ public class Metodos {
 		}
 
 		if (opcionSeleccionada == 0) { // Buscar por código
-			String codigoString = JOptionPane.showInputDialog("Introduce el código de la película");
+			String codigoString = JOptionPane.showInputDialog("Introduce el código de la libro");
 
 			if (codigoString == null) {
 				return;
@@ -428,11 +436,11 @@ public class Metodos {
 
 				boolean encontrado = true;
 
-				// Busca en las listas de películas
+				// Busca en las listas de libros
 				for (Libro libro : categoriaLibros.getLibrosLiteratura()) {
 					if (libro.getCodigo() == codigo) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -443,7 +451,7 @@ public class Metodos {
 				for (Libro libro : categoriaLibros.getLibrosConsultayReferencia()) {
 					if (libro.getCodigo() == codigo) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -454,7 +462,7 @@ public class Metodos {
 				for (Libro libro : categoriaLibros.getLibrosInfantiles()) {
 					if (libro.getCodigo() == codigo) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -465,7 +473,7 @@ public class Metodos {
 				for (Libro libro : categoriaLibros.getLibrosDivulgativos()) {
 					if (libro.getCodigo() == codigo) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -476,7 +484,7 @@ public class Metodos {
 				for (Libro libro : categoriaLibros.getLibrosTecnicos()) {
 					if (libro.getCodigo() == codigo) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -493,7 +501,7 @@ public class Metodos {
 				JOptionPane.showMessageDialog(null, "Por favor, introduce un código válido.");
 			}
 		} else { // Buscar por título
-			String tituloBusqueda = JOptionPane.showInputDialog("Introduce el título de la película");
+			String tituloBusqueda = JOptionPane.showInputDialog("Introduce el título del libro");
 
 			if (tituloBusqueda == null) {
 				return;
@@ -503,11 +511,11 @@ public class Metodos {
 
 				boolean encontrado = true;
 
-				// Busca en las listas de películas
+				// Busca en las listas de libros
 				for (Libro libro : categoriaLibros.getLibrosLiteratura()) {
 					if (libro.getTitulo().equals(tituloBusqueda)) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -519,7 +527,7 @@ public class Metodos {
 				for (Libro libro : categoriaLibros.getLibrosConsultayReferencia()) {
 					if (libro.getTitulo().equals(tituloBusqueda)) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -530,7 +538,7 @@ public class Metodos {
 				for (Libro libro : categoriaLibros.getLibrosInfantiles()) {
 					if (libro.getTitulo().equals(tituloBusqueda)) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -541,7 +549,7 @@ public class Metodos {
 				for (Libro libro : categoriaLibros.getLibrosDivulgativos()) {
 					if (libro.getTitulo().equals(tituloBusqueda)) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -552,7 +560,7 @@ public class Metodos {
 				for (Libro libro : categoriaLibros.getLibrosTecnicos()) {
 					if (libro.getTitulo().equals(tituloBusqueda)) {
 						lectoresAnuales = sumarlectoresAnuales(libro.getLectores());
-						porcentaje = (lectoresAnuales / espectadoresTotales) * 100;
+						porcentaje = (lectoresAnuales / lectoresTotales) * 100;
 						respuesta = "Los espectadores anuales de " + libro.getTitulo() + " han sido: " + lectoresAnuales
 								+ " , representando un " + porcentaje + "% del total.";
 						JOptionPane.showMessageDialog(null, respuesta, "", JOptionPane.INFORMATION_MESSAGE);
@@ -609,7 +617,7 @@ public class Metodos {
 			System.out.println(e.getMessage());
 		}
 		// Devolvemos el dato
-		System.out.println(lectoresTotales);
+		
 		return lectoresTotales;
 	}
 
@@ -639,12 +647,12 @@ public class Metodos {
 				lectores[i] = 0;
 			}
 
-			Libro nuevoLibro = new Libro(titulo, codigo, autor, nota, lectores);
 
 			String categoria = JOptionPane.showInputDialog("Introduce la categoría del libro:").toLowerCase();
 			if (categoria == null)
 				return;
 
+			Libro nuevoLibro = new Libro(titulo, codigo, autor, nota, lectores,categoria);
 			CategoriaLibros categoriaLibros = biblioteca.getLibros();
 			List<Libro> listaCategoria = null;
 
@@ -670,7 +678,8 @@ public class Metodos {
 			}
 
 			listaCategoria.add(nuevoLibro);
-
+			InterfazBiblioteca.actualizarDesplegablesDesdeXML();
+			
 			JOptionPane.showMessageDialog(null, "Libro agregado a la lista de " + categoria);
 
 			try {
@@ -700,7 +709,7 @@ public class Metodos {
 
 		try {
 
-			// Buscar en las listas de películas
+			// Buscar en las listas de libros
 			for (Libro libro : categoriaLibros.getLibrosLiteratura()) {
 			    if (libro.getTitulo().equalsIgnoreCase(titulo)) {
 			        info.append("Título: ").append(libro.getTitulo()).append("\n");
@@ -711,7 +720,7 @@ public class Metodos {
 			        for (int i = 0; i < 12; i++) {
 			            info.append(meses[i]).append(": ").append(libro.getLectores()[i]).append("\n");
 			        }
-			        info.append("Categoría: Técnico").append("\n");
+			        info.append("Categoría: ").append(libro.getCategoria()).append("\n");
 			        return info.toString();
 			    }
 			}
@@ -726,7 +735,7 @@ public class Metodos {
 			        for (int i = 0; i < 12; i++) {
 			            info.append(meses[i]).append(": ").append(libro.getLectores()[i]).append("\n");
 			        }
-			        info.append("Categoría: Técnico").append("\n");
+			        info.append("Categoría: ").append(libro.getCategoria()).append("\n");
 			        return info.toString();
 			    }
 			}
@@ -742,7 +751,7 @@ public class Metodos {
 			        for (int i = 0; i < 12; i++) {
 			            info.append(meses[i]).append(": ").append(libro.getLectores()[i]).append("\n");
 			        }
-			        info.append("Categoría: Técnico").append("\n");
+			        info.append("Categoría: ").append(libro.getCategoria()).append("\n");
 			        return info.toString();
 			    }
 			}
@@ -758,7 +767,7 @@ public class Metodos {
 			        for (int i = 0; i < 12; i++) {
 			            info.append(meses[i]).append(": ").append(libro.getLectores()[i]).append("\n");
 			        }
-			        info.append("Categoría: Técnico").append("\n");
+			        info.append("Categoría: ").append(libro.getCategoria()).append("\n");
 			        return info.toString();
 			    }
 			}
@@ -773,7 +782,7 @@ public class Metodos {
 			        for (int i = 0; i < 12; i++) {
 			            info.append(meses[i]).append(": ").append(libro.getLectores()[i]).append("\n");
 			        }
-			        info.append("Categoría: Técnico").append("\n");
+			        info.append("Categoría: ").append(libro.getCategoria()).append("\n");
 			        return info.toString();
 			    }
 			}
@@ -809,7 +818,7 @@ public class Metodos {
 				boolean libroEliminado= false;
 				
 
-				// Buscar en las listas de películas
+				// Buscar en las listas de libros
 				
 				//Literatura
 				for (Libro libro : categoriaLibros.getLibrosLiteratura()) {
@@ -818,6 +827,7 @@ public class Metodos {
 						libroEliminado=true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 						break;
 					}
 				}
@@ -829,6 +839,7 @@ public class Metodos {
 						libroEliminado = true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 						break;
 					}
 				}
@@ -840,6 +851,7 @@ public class Metodos {
 						libroEliminado = true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 						break;
 					}
 				}
@@ -851,6 +863,7 @@ public class Metodos {
 						libroEliminado = true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 						break;
 					}
 				}
@@ -862,6 +875,7 @@ public class Metodos {
 						libroEliminado = true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 						break;
 					}
 				}
@@ -892,6 +906,7 @@ public class Metodos {
 						libroEliminado=true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 						break;
 					}
 				}
@@ -903,6 +918,7 @@ public class Metodos {
 						libroEliminado = true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();						
 						break;
 					}
 				}
@@ -914,6 +930,7 @@ public class Metodos {
 						libroEliminado = true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 						break;
 					}
 				}
@@ -925,6 +942,7 @@ public class Metodos {
 						libroEliminado = true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 						break;
 					}
 				}
@@ -936,6 +954,7 @@ public class Metodos {
 						libroEliminado = true;
 						encontrado=true;
 						JOptionPane.showMessageDialog(null, "Libro " + libro.getTitulo() + " eliminado.");
+						InterfazBiblioteca.actualizarDesplegablesDesdeXML();
 						break;
 					}
 				}
@@ -961,5 +980,8 @@ public class Metodos {
 			e.getMessage();
 		}
 	}
+	
+	
+	
 
 }

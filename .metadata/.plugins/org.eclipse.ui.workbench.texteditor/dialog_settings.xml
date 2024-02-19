@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=""/>
+		<item key="selection" value="se"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
-		<item key="incremental" value="false"/>
+		<item key="incremental" value="true"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="Serie"/>
-			<item value="Pelicula"/>
+			<item value="serie"/>
+			<item value="series"/>
+			<item value="películas"/>
+			<item value="película"/>
 			<item value="pelicula"/>
-			<item value="Biblioteca.xml"/>
-			<item value="Disney"/>
-			<item value="archivo"/>
-			<item value="crear"/>
-			<item value="espectadoresAnuales"/>
-			<item value="gameU"/>
-			<item value="guar"/>
-			<item value="game U"/>
-			<item value="gua"/>
-			<item value="gameP"/>
-			<item value="mostrar"/>
-			<item value="running"/>
+			<item value="peliculas"/>
+			<item value="modificar"/>
+			<item value="crearXML"/>
+			<item value="Biblioteca("/>
+			<item value="leerXml"/>
+			<item value="leer"/>
+			<item value="color"/>
+			<item value="system"/>
+			<item value="Cien años de soledad"/>
+			<item value="constraints"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
 			<item value="lectoresAnuales"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1488"/>
-		<item key="DIALOG_Y_ORIGIN" value="177"/>
+		<item key="DIALOG_X_ORIGIN" value="1492"/>
+		<item key="DIALOG_Y_ORIGIN" value="554"/>
 		<item key="DIALOG_WIDTH" value="322"/>
 		<item key="DIALOG_HEIGHT" value="391"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>

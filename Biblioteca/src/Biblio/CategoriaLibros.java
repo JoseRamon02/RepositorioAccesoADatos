@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder = { "librosLiteratura", "librosConsultayReferencia", "librosInfantiles","librosDivulgativos","librosTecnicos"})
 public class CategoriaLibros {
     
     // Attributes for different book categories
-    private List<Libro> librosLiteratura = new ArrayList<>();
-    private List<Libro> librosConsultayReferencia = new ArrayList<>();
-    private List<Libro> librosInfantiles = new ArrayList<>();
-    private List<Libro> librosDivulgativos = new ArrayList<>();
-    private List<Libro> librosTecnicos = new ArrayList<>();
+    public static List<Libro> librosLiteratura = new ArrayList<>();
+    public static List<Libro> librosConsultayReferencia = new ArrayList<>();
+    public static List<Libro> librosInfantiles = new ArrayList<>();
+    public static List<Libro> librosDivulgativos = new ArrayList<>();
+    public static List<Libro> librosTecnicos = new ArrayList<>();
     
     // Getters and setters for book categories
     @XmlElement(name = "librosLiteratura")

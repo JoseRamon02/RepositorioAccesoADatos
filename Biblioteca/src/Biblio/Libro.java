@@ -3,7 +3,7 @@ package Biblio;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(propOrder = { "titulo", "codigo", "autor", "nota", "lectores" })
+@XmlType(propOrder = { "titulo", "codigo", "autor", "nota", "lectores","categoria" })
 public class Libro {
 
     // Atributos
@@ -12,18 +12,20 @@ public class Libro {
     private String autor;
     private double nota;
     private int[] lectores;
+    private String categoria;
 
     // Constructor vacío
     public Libro() {
     }
 
     // Constructor con atributos
-    public Libro(String titulo, int codigo, String autor, double nota, int[] lectores) {
+    public Libro(String titulo, int codigo, String autor, double nota, int[] lectores,String categoria) {
         this.titulo = titulo;
         this.codigo = codigo;
         this.autor = autor;
         this.nota = nota;
         this.lectores = lectores;
+        this.categoria = categoria;
     }
 
     // Métodos (Getter y Setter)
@@ -70,6 +72,15 @@ public class Libro {
 
     public void setLectores(int[] lectores) {
         this.lectores = lectores;
+    }
+    
+    @XmlElement
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     // Método toString
